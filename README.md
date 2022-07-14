@@ -23,6 +23,6 @@ All processing happens clientside, all the server knows (and caches) is the fact
 
 # License
 
-This project is licensed under the 0bsd license.
+This project is licensed under the Apache License, Version 2.0
 
 See `LICENSE` for more information.
