@@ -67,14 +67,15 @@ async function update_calculator() {
         currency_elem.removeChild(currency_elem.firstChild)
     }
 
+    const option = document.createElement("option")
+    option.value = "none"
+    option.textContent = "Selecteer valuta"
+    currency_elem.appendChild(option)
+
     if (koersen.length === 0) {
         currency_elem.hidden = true
     } else {
-        const option = document.createElement("option")
-        option.value = "none"
-        option.textContent = "Selecteer valuta"
-        currency_elem.appendChild(option)
-
+        currency_elem.hidden = false
         for (const koers of koersen) {
             const option = document.createElement("option")
             option.value = koers.muntcode
@@ -130,102 +131,111 @@ async function update_table() {
             total_euro += parseFloat(euro.value)
         }
 
-        total_foreign_elem.textContent = total_foreign.toFixed(2)
-        total_euro_elem.textContent = total_euro.toFixed(2)
+        total_foreign_elem.textContent = total_foreign.toFixed(8)
+        total_euro_elem.textContent = total_euro.toFixed(8)
     }
 
-    for (const month of ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]) {
-        const koersen = await fetch_wisselkoersen(year, month)
-        if (koersen.length === 0) {
-            break;
-        }
-
-        const entry = document.createElement("div")
-        entry.classList = "table-row"
-
-        const month_elem = document.createElement("div")
-        month_elem.classList = "table-column"
-        entry.appendChild(month_elem)
-
-        const foreign_currency = document.createElement("div")
-        foreign_currency.classList = "table-column"
-        entry.appendChild(foreign_currency)
-
-        const euro = document.createElement("div")
-        euro.classList = "table-column"
-        entry.appendChild(euro)
-
-        const foreign_currency_value_col = document.createElement("div")
-        foreign_currency_value_col.classList = "table-column"
-        entry.appendChild(foreign_currency_value_col)
-
-        const foreign_value_input = document.createElement("input")
-        foreign_value_input.type = "number"
-        foreign_value_input.step = 0.01
-        foreign_currency_value_col.appendChild(foreign_value_input)
-
-        const euro_value_col = document.createElement("div")
-        euro_value_col.classList = "table-column"
-        entry.appendChild(euro_value_col)
-
-        const euro_value_input = document.createElement("input")
-        euro_value_input.type = "number"
-        euro_value_input.step = 0.01
-        euro_value_col.appendChild(euro_value_input)
-
-        let month_text = "Error"
-        if (month === "01") {
-            month_text = "Januari"
-        } else if (month === "02") {
-            month_text = "Februari"
-        } else if (month === "03") {
-            month_text = "Maart"
-        } else if (month === "04") {
-            month_text = "April"
-        } else if (month === "05") {
-            month_text = "Mei"
-        } else if (month === "06") {
-            month_text = "Juni"
-        } else if (month === "07") {
-            month_text = "Juli"
-        } else if (month === "08") {
-            month_text = "Augustus"
-        } else if (month === "09") {
-            month_text = "September"
-        } else if (month === "10") {
-            month_text = "Oktober"
-        } else if (month === "11") {
-            month_text = "November"
-        } else if (month === "12") {
-            month_text = "December"
-        }
-        month_elem.textContent = month_text
-
-        let koers = undefined
-        for (const koers_iter of koersen) {
-            if (koers_iter.muntcode == currency_elem.value) {
-                foreign_currency.textContent = koers_iter.tarief_vreemde_valuta
-                euro.textContent = koers_iter.tarief_euro
-                koers = koers_iter
+    const elements = await Promise.all(["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"].map(month =>
+        fetch_wisselkoersen(year, month).then(koersen => {
+            if (koersen.length === 0) {
+                return undefined;
             }
+
+            const entry = document.createElement("div")
+            entry.classList = "table-row"
+
+            const month_elem = document.createElement("div")
+            month_elem.classList = "table-column"
+            entry.appendChild(month_elem)
+
+            const foreign_currency = document.createElement("div")
+            foreign_currency.classList = "table-column"
+            entry.appendChild(foreign_currency)
+
+            const euro = document.createElement("div")
+            euro.classList = "table-column"
+            entry.appendChild(euro)
+
+            const foreign_currency_value_col = document.createElement("div")
+            foreign_currency_value_col.classList = "table-column"
+            entry.appendChild(foreign_currency_value_col)
+
+            const foreign_value_input = document.createElement("input")
+            foreign_value_input.type = "number"
+            foreign_value_input.step = 0.01
+            foreign_currency_value_col.appendChild(foreign_value_input)
+
+            const euro_value_col = document.createElement("div")
+            euro_value_col.classList = "table-column"
+            entry.appendChild(euro_value_col)
+
+            const euro_value_input = document.createElement("input")
+            euro_value_input.type = "number"
+            euro_value_input.step = 0.01
+            euro_value_col.appendChild(euro_value_input)
+
+            let month_text = "Error"
+            if (month === "01") {
+                month_text = "Januari"
+            } else if (month === "02") {
+                month_text = "Februari"
+            } else if (month === "03") {
+                month_text = "Maart"
+            } else if (month === "04") {
+                month_text = "April"
+            } else if (month === "05") {
+                month_text = "Mei"
+            } else if (month === "06") {
+                month_text = "Juni"
+            } else if (month === "07") {
+                month_text = "Juli"
+            } else if (month === "08") {
+                month_text = "Augustus"
+            } else if (month === "09") {
+                month_text = "September"
+            } else if (month === "10") {
+                month_text = "Oktober"
+            } else if (month === "11") {
+                month_text = "November"
+            } else if (month === "12") {
+                month_text = "December"
+            }
+            month_elem.textContent = month_text
+
+            let koers = undefined
+            for (const koers_iter of koersen) {
+                if (koers_iter.muntcode == currency_elem.value) {
+                    foreign_currency.textContent = koers_iter.tarief_vreemde_valuta
+                    euro.textContent = koers_iter.tarief_euro
+                    koers = koers_iter
+                }
+            }
+
+            foreign_value_input.value = 0
+            foreign_elems.push(foreign_value_input)
+            euro_value_input.value = 0
+            euro_elems.push(euro_value_input)
+
+            foreign_value_input.oninput = () => {
+                euro_value_input.value = (foreign_value_input.value * koers.tarief_euro).toFixed(8)
+                update_totals()
+            }
+
+            euro_value_input.oninput = () => {
+                foreign_value_input.value = (euro_value_input.value * koers.tarief_vreemde_valuta).toFixed(8)
+                update_totals()
+            }
+
+            entry.month = parseInt(month)
+            return entry
+        })
+    ))
+
+    elements.sort((a, b) => a.month > b.month)
+    for (const elem of elements) {
+        if (elem) {
+            table_elem.appendChild(elem)
         }
-
-        foreign_value_input.value = 0
-        foreign_elems.push(foreign_value_input)
-        euro_value_input.value = 0
-        euro_elems.push(euro_value_input)
-
-        foreign_value_input.oninput = () => {
-            euro_value_input.value = (foreign_value_input.value * koers.tarief_euro).toFixed(2)
-            update_totals()
-        }
-
-        euro_value_input.oninput = () => {
-            foreign_value_input.value = (euro_value_input.value * koers.tarief_vreemde_valuta).toFixed(2)
-            update_totals()
-        }
-
-        table_elem.appendChild(entry)
     }
 
     update_totals()
