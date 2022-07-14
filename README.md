@@ -20,3 +20,9 @@ A small website that makes it a lot easier to calculate how much money you earne
 We simply fetch the XML files that the Belastingdienst publishes, and do some nice formatting on them.
 
 All processing happens clientside, all the server knows (and caches) is the fact that you request XML files for a specific month.
+
+# License
+
+This project is licensed under the 0bsd license.
+
+See `LICENSE` for more information.

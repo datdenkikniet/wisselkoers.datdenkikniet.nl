@@ -99,7 +99,7 @@ async function update_table() {
     }
 
     const message = document.createElement("div")
-    message.classList = "table-column five"
+    message.classList = "table-row table-column"
     table_elem.appendChild(message)
 
     if (currency_elem.value === "none") {
@@ -113,7 +113,7 @@ async function update_table() {
     total.classList = "table-row"
 
     const three = document.createElement("div")
-    three.classList = "table-column three"
+    three.classList = "three"
     three.textContent = "Totaal"
     total.appendChild(three)
 

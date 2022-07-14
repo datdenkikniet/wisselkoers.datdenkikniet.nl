@@ -15,6 +15,7 @@ body {
 .table-row {
     display: grid;
     grid-template-columns: 15% 22.5% 17.5% 25% 20%;
+    border-bottom: 2px solid black;
 }
 
 #table-contents {
@@ -33,8 +34,8 @@ body {
     text-align: right;
 }
 
-.table-colum.five {
-    grid-column: 5;
+.table-row.table-column {
+    grid-template-columns: 1fr;
     text-align: center;
 }
 
