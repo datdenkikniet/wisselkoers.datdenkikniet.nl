@@ -8,7 +8,8 @@ class Koers {
 }
 
 async function fetch_wisselkoersen(year, month) {
-    const url = "http://belastingproxy.internal/data/douane_wisselkoersen/wks.douane.wisselkoersen.dd" + year + month + ".xml";
+    // Fetch data through proxy so we avoid requiring CORS
+    const url = "data/douane_wisselkoersen/wks.douane.wisselkoersen.dd" + year + month + ".xml";
     const req = await fetch(url)
 
     if (req.status !== 200) {
