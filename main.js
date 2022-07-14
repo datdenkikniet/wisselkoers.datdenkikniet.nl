@@ -33,10 +33,13 @@ async function fetch_wisselkoersen(year, month) {
 
         const muntcode = get("muntCode")
         const muntsoort = get("muntSoort")
-        const tarief_vreemde_valuta = get("tariefInVreemdeValuta").replace(",", ".")
-        const tarief_euro = get("tariefInEuro").replace(",", ".")
+        // Convert into floats by removing the thousands separators and converting
+        // the decimal separator from a `,` into a `.`
+        const tarief_vreemde_valuta = get("tariefInVreemdeValuta").replace(".", "").replace(",", ".")
+        const tarief_euro = get("tariefInEuro").replace(".", "").replace(",", ".")
 
-        koersen_parsed.push(new Koers(muntsoort, muntcode, tarief_vreemde_valuta, tarief_euro))
+        const koers_obj = new Koers(muntsoort, muntcode, tarief_vreemde_valuta, tarief_euro)
+        koersen_parsed.push(koers_obj)
     }
 
     koersen_parsed.sort((a, b) => a.muntsoort.localeCompare(b.muntsoort))
