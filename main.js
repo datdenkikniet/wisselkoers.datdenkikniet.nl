@@ -49,11 +49,11 @@ const currency_elem = document.querySelector("#currency")
 const table_elem = document.querySelector("#table-contents")
 const warning_span = document.querySelector("#warning")
 
-const max = 22;
+const max = (new Date().getFullYear() - 17) % 100;
 for (const num of Array(max).keys()) {
     const option = document.createElement("option")
-    option.value = (max - num) + 2000
-    option.textContent = (max - num) + 2000
+    option.value = (max - num) + 2017
+    option.textContent = (max - num) + 2017
     year_elem.appendChild(option)
 }
 
