@@ -47,6 +47,7 @@ async function fetch_wisselkoersen(year, month) {
 const year_elem = document.querySelector("#year")
 const currency_elem = document.querySelector("#currency")
 const table_elem = document.querySelector("#table-contents")
+const warning_span = document.querySelector("#warning")
 
 const max = 22;
 for (const num of Array(max).keys()) {
@@ -75,8 +76,10 @@ async function update_calculator() {
 
     if (koersen.length === 0) {
         currency_elem.hidden = true
+        warning_span.textContent = "Koersen voor dit jaar zijn (nog) niet beschikbaar"
     } else {
         currency_elem.hidden = false
+        warning_span.textContent = ""
         for (const koers of koersen) {
             const option = document.createElement("option")
             option.value = koers.muntcode
@@ -95,9 +98,16 @@ async function update_table() {
         table_elem.removeChild(table_elem.firstChild)
     }
 
+    const message = document.createElement("div")
+    message.classList = "table-column five"
+    table_elem.appendChild(message)
+
     if (currency_elem.value === "none") {
+        message.textContent = "Geen valuta geselecteerd"
         return
     }
+
+    message.textContent = "Data aan het laden..."
 
     const total = document.createElement("div")
     total.classList = "table-row"
@@ -232,6 +242,8 @@ async function update_table() {
         })
     ))
 
+    table_elem.removeChild(message)
+
     elements.sort((a, b) => a.month > b.month)
     for (const elem of elements) {
         if (elem) {
@@ -242,6 +254,7 @@ async function update_table() {
     update_totals()
 
     table_elem.appendChild(total)
+
 }
 
 currency_elem.onchange = () => {
