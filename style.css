@@ -1,0 +1,46 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#table {
+    margin: 0 auto;
+    width: 60%;
+}
+
+.table-row {
+    display: grid;
+    grid-template-columns: 10% 25% 20% 25% 20%;
+    border-bottom: 2px solid black;
+}
+
+#table-contents {
+    border-left: 2px solid black;
+}
+
+.table-column {
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    line-height: 1.5em;
+    border-right: 2px solid black;
+}
+
+.table-column.three {
+    grid-column: 3;
+    text-align: right;
+}
+
+.table-column>input {
+    height: 1.3em;
+    border: 0.1em solid #d6d6d6;
+    padding-left: 0.15em;
+    padding-right: 0.15em;
+    font-size: 1em;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 80%;
+}
+
+.table-header-column {
+    background-color: #d6d6d6;
+    border-right: darkgray solid 2px;
+}
