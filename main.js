@@ -113,7 +113,7 @@ async function update_table() {
     total.classList = "table-row"
 
     const three = document.createElement("div")
-    three.classList = "three"
+    three.classList = "table-column three"
     three.textContent = "Totaal"
     total.appendChild(three)
 
