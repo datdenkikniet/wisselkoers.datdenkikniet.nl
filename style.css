@@ -1,5 +1,12 @@
 body {
     font-family: sans-serif;
+    min-height: 90vh;
+}
+
+.footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
 
 .container {
